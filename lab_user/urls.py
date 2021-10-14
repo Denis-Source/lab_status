@@ -1,12 +1,9 @@
 from django.urls import path
 
-from lab_user.views import RegisterView, LoginView
+from lab_user.views import LoginView
 
 
 urlpatterns = [
-    # registration form path
-    path("register/", RegisterView.as_view()),
-
     # login form path
     path("login/", LoginView.as_view()),
 

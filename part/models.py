@@ -10,6 +10,9 @@ class Part(models.Model):
     status = models.BooleanField(default=False)
     auto = models.BooleanField(default=True)
 
+    phrase_pos = models.CharField(default="", max_length=32, blank=True, null=True)
+    phrase_neg = models.CharField(default="", max_length=32, blank=True, null=True)
+
     image_pos = models.ImageField(upload_to="event/pos/", blank=True, null=True)
     image_neg = models.ImageField(upload_to="event/neg/", blank=True, null=True)
 

@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+    <!-- Profile template -->
+    <main id="main" class="main">
+
+        <div class="pagetitle">
+            <h1>Dashboard</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section dashboard">
+
+            <div class="row">
+                <!-- Card -->
+                <div class="col-xxl-3 col-md-6">
+                    <div class="card info-card sales-card">
+                        <div class="card-body" id="door-card">
+                            <h5 class="card-title" id="door-card-title"></h5>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-door-open"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6 id="door-card-status"></h6>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- End Card -->
+                <!-- Card -->
+                <div class="col-xxl-3 col-md-6">
+                    <div class="card info-card sales-card">
+                        <div class="card-body" id="vent-card">
+                            <h5 class="card-title" id="vent-card-title"></h5>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-wind"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6 id="vent-card-status"></h6>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- End Card -->
+                <!-- Card -->
+                <div class="col-xxl-3 col-md-6">
+                    <div class="card info-card sales-card">
+                        <div class="card-body" id="light-card">
+                            <h5 class="card-title" id="light-card-title"></h5>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-lightbulb-fill"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6 id="light-card-status"></h6>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- End Card -->
+                <!-- Card -->
+                <div class="col-xxl-3 col-md-6">
+                    <div class="card info-card sales-card">
+                        <div class="card-body" id="movement-card">
+                            <h5 class="card-title" id="movement-card-title"></h5>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-arrows-move"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6 id="movement-card-status"></h6>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- End Card -->
+                <script>
+                    $(function () {
+                        loadLatestStatus();
+                        window.setInterval(function () {
+                            loadLatestStatus();
+                        }, 1000);
+
+                        function setData(obj) {
+                            $("#" + obj.name + "-card-title").text(obj.name);
+
+                            if (obj.status) {
+                                $("#" + obj.name + "-card-status").text(obj.phrase_pos);
+                            } else {
+                                $("#" + obj.name + "-card-status").text(obj.phrase_neg);
+                            }
+                        }
+
+                        function loadLatestStatus() {
+                            $.ajax({
+                                url: 'api/parts',
+                                success: function (data) {
+                                    for (let i = 0; i < data.length; i++) {
+                                        setData(data[i]);
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                </script>
+            </div>
+
+            <div class="row">
+                <!-- Left side columns -->
+                <div class="col-lg-7">
+                    <!-- Camera Feed -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Video Feed <span>| cam_1</span></h5>
+                            <div class=p-3">
+                                <img class="shadow card mb-3" src="http://127.0.0.1:5000/video_feed"
+                                     width="100%"
+                                     alt="video_feed"></div>
+                        </div><!-- End Camera Feed -->
+                    </div>
+                </div><!-- End Left side columns -->
+
+                <!-- Right side columns -->
+                <div class="col-lg-5">
+
+                    <!-- Recent Activity -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Recent Activity</h5>
+
+                            <div class="activity">
+
+                                <div class="activity-item d-flex" id="activity-feed">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- End Recent Activity -->
+
+                    <!-- News & Updates Traffic -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Quick Chat</h5>
+                            <div class="chat-body" id="chat">
+
+                            </div>
+                            {% if user.is_authenticated %}
+                                <div class="row d-flex justify-content-between align-items-center p-2">
+                                    <div class="col-lg-9 d-flex">
+                                    <textarea class="form-control w-100 m-auto mt-2" style="resize: none"
+                                              id="chat-input"
+                                              rows="3"></textarea>
+                                    </div>
+                                    <div class="col-lg-3 d-flex align-items-center p-2">
+                                        <button class="btn btn-primary m-auto mt-2 p-5 pb-2 pt-2" id="send-btn">Send
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <script>
+                        let maxId = 0;
+
+                        function loadLatestStatus() {
+                            $.ajax({
+                                url: 'api/messages',
+                                success: function (data) {
+                                    data.reverse();
+                                    for (let i = 0; i < data.length; i++) {
+                                        if (data[i].id > maxId) {
+                                            maxId = data[i].id;
+                                            setData(data[i]);
+                                            $("#chat").scrollTop($("#chat")[0].scrollHeight);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+
+                        function setData(obj) {
+                            let date = new Date(obj.time);
+                            let element = $(
+                                `
+                                        <div class="d-flex mb-3 p-1">
+                                            <div class="p-2">
+                                                <img class="rounded-circle chat-icon" src="${obj.author.image}" alt="${obj.author.name}">
+                                            </div>
+                                            <div class="w-100">
+                                                <h6 class="card-title p-0 m-0">${obj.author.username}</h6>
+                                                <p class="text-justify" style="word-break: break-all">${obj.body}</p>
+                                                <h6 class="text-primary text-right">${date.toLocaleString()}</h6>
+                                            </div>
+                                        </div>
+                                    `
+                            );
+                            $("#chat").append(element);
+                        }
+
+                        $(function () {
+                            loadLatestStatus();
+                            window.setInterval(function () {
+                                loadLatestStatus();
+                            }, 1000);
+                            loadLatestStatus();
+                        });
+
+                        $("#send-btn").click(function () {
+                            let messageText = $('#chat-input').val();
+                            let data = {
+                                body: messageText
+                            }
+                            $.ajax({
+                                url: 'api/messages/create',
+                                type: 'POST',
+                                data: data,
+                                beforeSend: function (xhr, settings) {
+                                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                                },
+                                success: function (arg) {
+                                    loadLatestStatus();
+                                    $('#chat-input').val("");
+                                },
+                                error: function (data) {
+                                    console.log(data);
+                                }
+
+                            })
+                        })
+                    </script>
+                </div>
+            </div><!-- End Right side columns -->
+        </section>
+
+    </main>
+    <!-- End #main -->
+{% endblock %}

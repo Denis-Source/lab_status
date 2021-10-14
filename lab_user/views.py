@@ -26,39 +26,6 @@ class LabUserConfidentialRetrieveAPIView(LabUserRetrieveAPIView):
     serializer_class = LabUserConfidentialSerializer
 
 
-class RegisterView(FormView):
-    """
-    User registration form view
-    Uses a django builtin User model
-
-    After a successful form validation
-    logs a newly registered user in
-    redirects to the main page
-    """
-    template_name = "register.html"
-    form_class = RegisterForm
-    success_url = "/"
-
-    def form_valid(self, form):
-        """
-        Form validation Override method
-        If form is valid
-        Saves a newly registered user
-        Uses it's parameters (username and password1) to login the user
-        :param form:
-        :return:
-        """
-        form.save()
-
-        # logs user
-        user = authenticate(
-            username=self.request.POST["username"],
-            password=self.request.POST["password1"]
-        )
-        login(self.request, user)
-        return super().form_valid(form)
-
-
 class LoginView(FormView):
     """
     User login form view

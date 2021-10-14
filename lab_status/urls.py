@@ -10,10 +10,13 @@ from lab_user import urls as lab_user_urls
 from django.contrib import admin
 from django.urls import path
 
+from homepage.views import HomePageView
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(api_urls)),
     path("", include(lab_user_urls)),
+    path("", HomePageView.as_view())
 ]
 
 # map static files

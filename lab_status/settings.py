@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'api',
     'lab_user',
+    'homepage',
     'event',
     'message',
     'part',

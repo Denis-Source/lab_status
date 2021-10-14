@@ -6,5 +6,5 @@ class PartSerializer(ModelSerializer):
     class Meta:
         model = Part
         fields = [
-            "name", "last_time", "hash_value", "status", "auto", "image_pos", "image_neg"
+            "name", "last_time", "hash_value", "status", "auto", "image_pos", "image_neg", "phrase_pos", "phrase_neg"
         ]
