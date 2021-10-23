@@ -28,6 +28,8 @@
                                 </div>
                                 <div class="ps-3">
                                     <h6 id="door-card-status"></h6>
+                                    <div class="spinner-border text-primary" id="door-spinner"></div>
+
                                 </div>
                             </div>
                         </div>
@@ -36,15 +38,16 @@
                 </div><!-- End Card -->
                 <!-- Card -->
                 <div class="col-xxl-3 col-md-6">
-                    <div class="card info-card sales-card">
+                    <div class="card info-card sales-card clickable-card">
                         <div class="card-body" id="vent-card">
-                            <h5 class="card-title" id="vent-card-title"></h5>
+                            <h5 class="card-title" id="vent-card-title">vent</h5>
                             <div class="d-flex align-items-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                     <i class="bi bi-wind"></i>
                                 </div>
-                                <div class="ps-3">
+                                <div class="ps-3 d-flex justify-content-center">
                                     <h6 id="vent-card-status"></h6>
+                                    <div class="spinner-border text-primary" id="vent-spinner"></div>
                                 </div>
                             </div>
                         </div>
@@ -53,15 +56,22 @@
                 </div><!-- End Card -->
                 <!-- Card -->
                 <div class="col-xxl-3 col-md-6">
-                    <div class="card info-card sales-card">
-                        <div class="card-body" id="light-card">
-                            <h5 class="card-title" id="light-card-title"></h5>
-                            <div class="d-flex align-items-center">
+                    <div class="card info-card sales-card clickable-card">
+                        <div class="card-body pb-0" id="light-card">
+                            <div class="d-flex justify-content-between" id="light-card-top-button">
+                                <h5 class="card-title" id="light-card-title"></h5>
+                                <h5 class="card-title" id="light-card-auto">
+                                    <div class="spinner-border spinner-border-sm" id="light-spinner-auto"></div>
+                                </h5>
+                            </div>
+                            <div class="d-flex align-items-center" style="padding: 10px" id="light-card-bottom-button">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                     <i class="bi bi-lightbulb-fill"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6 id="light-card-status"></h6>
+                                    <h6 id="light-card-status">
+                                    </h6>
+                                    <div class="spinner-border text-primary" id="light-spinner"></div>
                                 </div>
                             </div>
                         </div>
@@ -79,53 +89,54 @@
                                 </div>
                                 <div class="ps-3">
                                     <h6 id="movement-card-status"></h6>
+                                    <div class="spinner-border text-primary" id="movement-spinner"></div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
                 </div><!-- End Card -->
-                <script>
-                    $(function () {
-                        loadLatestStatus();
-                        window.setInterval(function () {
-                            loadLatestStatus();
-                        }, 1000);
-
-                        function setData(obj) {
-                            $("#" + obj.name + "-card-title").text(obj.name);
-
-                            if (obj.status) {
-                                $("#" + obj.name + "-card-status").text(obj.phrase_pos);
-                            } else {
-                                $("#" + obj.name + "-card-status").text(obj.phrase_neg);
-                            }
-                        }
-
-                        function loadLatestStatus() {
-                            $.ajax({
-                                url: 'api/parts',
-                                success: function (data) {
-                                    for (let i = 0; i < data.length; i++) {
-                                        setData(data[i]);
-                                    }
-                                }
-                            });
-                        }
-                    });
-
-                </script>
             </div>
 
             <div class="row">
                 <!-- Left side columns -->
                 <div class="col-lg-7">
+
+
+                    <div class="card" id="table-lab-users">
+                        <div class="card-body">
+                            <h5 class="card-title">Present Users</h5>
+                            <div class="d-none" id="show-table-empty">
+                                <img style="width: 12rem; display: block; margin-left: auto; margin-right: auto;"
+                                     class="p-2" src="{% static 'img/undraw_void_3ggu.svg' %}" alt="">
+                                <h6 class="card-title text-center">The Lab is empty</h6>
+                            </div>
+                            <!-- Default Table -->
+                            <table id="show-table" class="table table-sm d-none">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th scope="col"><p class="p-2 card-title">Lab User</p></th>
+                                    <th scope="col"><p class="p-2 card-title">Position</p></th>
+                                    <th scope="col"><p class="p-2 card-title">Present Since</p></th>
+                                </tr>
+                                </thead>
+                                <tbody id="present-lab-users" style="border-top-color: #dee2e6">
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-center" id="present-lab-users-spinner"
+                                 style="margin: 75px">
+                                <div class="spinner-border text-primary"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Default Table Example -->
                     <!-- Camera Feed -->
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Video Feed <span>| cam_1</span></h5>
                             <div class=p-3">
-                                <img class="shadow card mb-3" src="http://127.0.0.1:5000/video_feed"
+                                <img class="shadow card mb-3 camera-feed" src="http://192.168.0.100:5000/video_feed"
                                      width="100%"
                                      alt="video_feed"></div>
                         </div><!-- End Camera Feed -->
@@ -134,15 +145,14 @@
 
                 <!-- Right side columns -->
                 <div class="col-lg-5">
-
                     <!-- Recent Activity -->
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Recent Activity</h5>
 
-                            <div class="activity">
-
-                                <div class="activity-item d-flex" id="activity-feed">
+                            <div class="activity activity-feed" id="activity-feed">
+                                <div class="d-flex justify-content-center" style="margin: 150px">
+                                    <div class="spinner-border text-primary"></div>
                                 </div>
                             </div>
 
@@ -154,7 +164,9 @@
                         <div class="card-body">
                             <h5 class="card-title">Quick Chat</h5>
                             <div class="chat-body" id="chat">
-
+                                <div class="d-flex justify-content-center" style="margin: 150px">
+                                    <div class="spinner-border text-primary"></div>
+                                </div>
                             </div>
                             {% if user.is_authenticated %}
                                 <div class="row d-flex justify-content-between align-items-center p-2">
@@ -171,79 +183,24 @@
                             {% endif %}
                         </div>
                     </div>
-                    <script>
-                        let maxId = 0;
-
-                        function loadLatestStatus() {
-                            $.ajax({
-                                url: 'api/messages',
-                                success: function (data) {
-                                    data.reverse();
-                                    for (let i = 0; i < data.length; i++) {
-                                        if (data[i].id > maxId) {
-                                            maxId = data[i].id;
-                                            setData(data[i]);
-                                            $("#chat").scrollTop($("#chat")[0].scrollHeight);
-                                        }
-                                    }
-                                }
-                            });
-                        }
-
-                        function setData(obj) {
-                            let date = new Date(obj.time);
-                            let element = $(
-                                `
-                                        <div class="d-flex mb-3 p-1">
-                                            <div class="p-2">
-                                                <img class="rounded-circle chat-icon" src="${obj.author.image}" alt="${obj.author.name}">
-                                            </div>
-                                            <div class="w-100">
-                                                <h6 class="card-title p-0 m-0">${obj.author.username}</h6>
-                                                <p class="text-justify" style="word-break: break-all">${obj.body}</p>
-                                                <h6 class="text-primary text-right">${date.toLocaleString()}</h6>
-                                            </div>
-                                        </div>
-                                    `
-                            );
-                            $("#chat").append(element);
-                        }
-
-                        $(function () {
-                            loadLatestStatus();
-                            window.setInterval(function () {
-                                loadLatestStatus();
-                            }, 1000);
-                            loadLatestStatus();
-                        });
-
-                        $("#send-btn").click(function () {
-                            let messageText = $('#chat-input').val();
-                            let data = {
-                                body: messageText
-                            }
-                            $.ajax({
-                                url: 'api/messages/create',
-                                type: 'POST',
-                                data: data,
-                                beforeSend: function (xhr, settings) {
-                                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
-                                },
-                                success: function (arg) {
-                                    loadLatestStatus();
-                                    $('#chat-input').val("");
-                                },
-                                error: function (data) {
-                                    console.log(data);
-                                }
-
-                            })
-                        })
-                    </script>
                 </div>
             </div><!-- End Right side columns -->
         </section>
-
     </main>
-    <!-- End #main -->
+    <script type="module">
+        import {Status} from "{% static 'js/status/Status.js' %}";
+
+        $(function () {
+            let statusLoader = new Status("{{ csrf_token }}");
+            statusLoader.draw();
+            window.setInterval(function () {
+                statusLoader.draw();
+            }, 2000)
+
+            window.setInterval(function () {
+                statusLoader.activityContainer.refreshTime();
+                statusLoader.chat.refreshTime();
+            }, 60000)
+        })
+    </script>
 {% endblock %}

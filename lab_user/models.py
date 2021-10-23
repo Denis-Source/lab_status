@@ -16,6 +16,7 @@ class LabUser(AbstractUser):
 
     image = models.ImageField(upload_to="lab_user/", blank=True, null=True)
 
+
     def change_status(self, new_status=True):
         self.last_time = timezone.now()
         self.status = new_status

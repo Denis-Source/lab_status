@@ -4,12 +4,14 @@ from part.models import Part
 
 
 class Event(models.Model):
-    title = models.CharField(max_length=32, unique=True)
+    title = models.CharField(max_length=32)
     part = models.ForeignKey(Part, related_name="parts", on_delete=models.CASCADE)
     camera_name = models.CharField(max_length=16, null=True, blank=True)
 
     time = models.DateTimeField(default=timezone.now)
-    status = models.BooleanField(default=False)
+    level = models.CharField(max_length=32)
+
+    source = models.CharField(max_length=32)
     is_authorised = models.BooleanField(default=False)
 
     image = models.ImageField(upload_to="event/images/", null=True, blank=True)

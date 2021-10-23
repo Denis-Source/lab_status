@@ -1,4 +1,5 @@
-from rest_framework.generics import RetrieveAPIView
+from django.utils import timezone
+from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.views.generic import FormView
@@ -8,15 +9,22 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
 from lab_user.models import LabUser
-from lab_user.serializers import LabUserSerializer, LabUserConfidentialSerializer
+from lab_user.serializers import LabUserSerializer, LabUserConfidentialSerializer, UpdateStatusLabUserSerializer
 from lab_user.forms import RegisterForm, LoginForm, ProfileUpdateForm
+
+
+class LabUserListAPIView(ListAPIView):
+    serializer_class = LabUserSerializer
+    queryset = LabUser.objects.all()
+
+
+class LabUserListAPIViewPresent(LabUserListAPIView):
+    queryset = LabUser.objects.filter(status=True).order_by("last_time_status_changed")
 
 
 class LabUserRetrieveAPIView(RetrieveAPIView):
     serializer_class = LabUserSerializer
-
     queryset = LabUser.objects.all()
-
     lookup_field = "username"
 
 
@@ -76,3 +84,15 @@ class LoginView(FormView):
         """
         logout(request)
         return redirect("/login/")
+
+
+class UpdateStatusLabUserAPIView(UpdateAPIView):
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = LabUser.objects.all()
+    serializer_class = UpdateStatusLabUserSerializer
+    lookup_field = "username"
+
+    def perform_update(self, serializer):
+        serializer.validated_data["last_time_status_changed"] = timezone.now()
+        serializer.save()

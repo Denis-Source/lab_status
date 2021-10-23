@@ -6,7 +6,7 @@ class LabUserSerializer(ModelSerializer):
     class Meta:
         model = LabUser
         fields = [
-            "username", "first_name", "last_name", "email", "image", "status", "position", "bio",
+            "id", "username", "first_name", "last_name", "email", "image", "status", "position", "bio",
             "last_time_status_changed"
         ]
 
@@ -15,6 +15,14 @@ class LabUserConfidentialSerializer(ModelSerializer):
     class Meta:
         model = LabUser
         fields = [
-            "username", "first_name", "last_name", "email", "image", "status", "position", "bio", "key_card_hash",
-            "pin_code_hash", "telegram_id", "last_time_status_changed", "date_joined", "is_superuser", "last_login"
+            "id", "username", "first_name", "last_name", "email", "image", "status", "position", "bio", "key_card_hash",
+            "pin_code_hash", "telegram_id", "last_time_status_changed", "date_joined", "is_superuser", "last_login",
+        ]
+
+
+class UpdateStatusLabUserSerializer(ModelSerializer):
+    class Meta:
+        model = LabUser
+        fields = [
+            "status"
         ]

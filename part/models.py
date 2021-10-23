@@ -6,6 +6,7 @@ class Part(models.Model):
     name = models.CharField(max_length=32, unique=True)
     last_time = models.DateTimeField(default=timezone.now)
     hash_value = models.CharField(max_length=32, blank=True, null=True)
+    hash_value_optional = models.CharField(max_length=32, blank=True, null=True)
 
     status = models.BooleanField(default=False)
     auto = models.BooleanField(default=True)

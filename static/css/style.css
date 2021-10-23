@@ -16,6 +16,7 @@ body {
     font-family: "Open Sans", sans-serif;
     background: #f6f9ff;
     color: #444444;
+    scroll-behavior: smooth;
 }
 
 a {
@@ -35,7 +36,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 
 /* Track */
@@ -72,6 +73,20 @@ h1, h2, h3, h4, h5, h6 {
 /*--------------------------------------------------------------
 # Page Title
 --------------------------------------------------------------*/
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animated {
+    animation: 0.2s ease-out 0s 1 fadeIn;
+}
+
 .pagetitle {
     margin-bottom: 10px;
 }
@@ -139,9 +154,16 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+.camera-feed{
+    min-height: 100%;
+}
+
 .chat-icon {
     max-width: 50px;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
 }
+
 
 .dropdown-menu .dropdown-header, .dropdown-menu .dropdown-footer {
     text-align: center;
@@ -263,6 +285,19 @@ h1, h2, h3, h4, h5, h6 {
     overflow: hidden;
 }
 
+.clickable-card {
+
+    transition: all .3s !important;
+    cursor: pointer !important;
+}
+.clickable-card:hover {
+    transform: scale(1.03) !important;
+}
+
+.clickable-card:active {
+    transform: scale(.98) !important;
+}
+
 .card-header, .card-footer {
     border-color: #ebeef4;
     background-color: #fff;
@@ -286,8 +321,7 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .chat-body {
-    height: 40vh;
-    min-height: 600px;
+    max-height: 40vh;
     overflow-y: scroll;
 }
 
@@ -862,6 +896,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Activity */
+.activity-feed {
+    max-height: 45vh;
+    overflow-y: scroll;
+}
+
 .dashboard .activity {
     font-size: 14px;
 }
