@@ -8,8 +8,8 @@ class EventSerializer(ModelSerializer):
     class Meta:
         model = Event
         fields = [
-            "id", "title", "part", "level", "camera_name", "time", "is_authorised", "image",
-            "is_video_recorded", "video"
+            "id", "title", "part", "level", "camera_name", "time", "is_authorised", "image_path",
+            "is_video_recorded", "video_path"
         ]
 
 
@@ -17,7 +17,7 @@ class EventCreateSerializer(ModelSerializer):
     class Meta:
         model = Event
         fields = [
-            "title", "part", "level", "source", "camera_name", "is_authorised", "image"
+            "id", "title", "part", "level", "source", "camera_name", "is_authorised", "image_path"
         ]
 
 
@@ -25,5 +25,5 @@ class EventAddVideoSerializer(ModelSerializer):
     class Meta:
         model = Event
         fields = [
-            "video"
+            "video_path"
         ]

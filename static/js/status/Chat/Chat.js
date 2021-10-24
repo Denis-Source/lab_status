@@ -73,7 +73,7 @@ export class Chat {
                     if (elementData.id > that.maxDrawnId) {
                         element = new ChatElement(elementData);
                         let pl = that.parentElement;
-                        let atBottom = pl[0].scrollHeight - pl.scrollTop() === pl.outerHeight()
+                        let atBottom = Math.abs(pl.offset().top) + pl.height() + pl.offset().top >= pl.outerHeight();
                         that.parentElement.append(element.drawElement());
                         that.elementsArray.push(element);
                         that.maxDrawnId = elementData.id;

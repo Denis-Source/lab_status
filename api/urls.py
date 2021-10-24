@@ -17,7 +17,7 @@ urlpatterns = [
     path("parts/<str:name>/auto", UpdatePartAutoAPIView.as_view(), name="part_auto"),
     path("events/", EventListAPIView.as_view(), name="events"),
     path("events/create", EventCreateAPIView.as_view(), name="event_create"),
-    path("events/<int:pk>/video", EventAddVideoAPIView.as_view(), name="event_video"),
+    path("events/<int:pk>/add-video", EventAddVideoAPIView.as_view(), name="add-video"),
     path("messages/", MessageListAPIView.as_view(), name="messages"),
     path("messages/create", MessageCreateAPIView.as_view(), name="create_messages"),
 

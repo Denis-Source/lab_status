@@ -3,6 +3,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from django.views.generic import DetailView
+
 from event.serializers import EventSerializer, EventCreateSerializer, EventAddVideoSerializer
 from event.models import Event
 
@@ -36,3 +38,8 @@ class EventAddVideoAPIView(UpdateAPIView):
     def perform_update(self, serializer):
         serializer.validated_data["is_video_recorded"] = True
         serializer.save()
+
+
+class EventDetailView(DetailView):
+    model = Event
+    template_name = "event_detail.html"

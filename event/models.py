@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from part.models import Part
+from django.conf import settings
 
 
 class Event(models.Model):
@@ -14,6 +15,9 @@ class Event(models.Model):
     source = models.CharField(max_length=32)
     is_authorised = models.BooleanField(default=False)
 
-    image = models.ImageField(upload_to="event/images/", null=True, blank=True)
+    image_path = models.CharField(max_length=128, null=True, blank=True)
     is_video_recorded = models.BooleanField(default=False)
-    video = models.FileField(upload_to="event/videos/", null=True, blank=True)
+    video_path = models.CharField(max_length=128, null=True, blank=True)
+
+    def get_video_url(self):
+        return f"{settings.MEDIA_URL}{settings.CAMERA_FOLDER}{self.video_path}"
